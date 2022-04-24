@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  // baseUrl: 'http://10.18.2.243:9443',
   baseUrl: '',
   useHash: false,
 };

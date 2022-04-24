@@ -5,12 +5,12 @@ $utilities: map.merge(
   (
     'font-size': (
       property: font-size,
-      class: f-s,
+      class: fs,
       values: $font-sizes
     ),
     'font-weight': (
       property: font-weight,
-      class: f-w,
+      class: fw,
       values: $font-wieghts
     ),
     'text-transform': (
