@@ -44,16 +44,12 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   private handleError(error: HttpErrorResponse) {
     if (this.errorPages.includes(error.status)) {
-      console.log('错误请求')
-      // this.router.navigateByUrl(`/${error.status}`, {
-      //   skipLocationChange: true,
-      // });
+      this.toast.error(this.getMessage(error));
     } else {
       console.error('ERROR', error);
       this.toast.error(this.getMessage(error));
       if (error.status === STATUS.UNAUTHORIZED) {
-        console.log('401 无权限请求')
-        // this.router.navigateByUrl('/auth/login');
+        this.router.navigateByUrl('/auth/login');
       }
     }
 
