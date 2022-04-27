@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BASE_URL, appInitializerProviders, httpInterceptorProviders } from '@core';
 import { ToastrModule } from 'ngx-toastr';
 import { environment } from '@env/environment';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { LocalStorageService, MemoryStorageService } from '@shared';
 // 获取翻译的json
 export function TranslateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,6 +33,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     RoutesModule,
     // 公用方法
     SharedModule,
+    // ngx permission
+    NgxPermissionsModule.forRoot(),
     // toast
     ToastrModule.forRoot(),
     /* i18n核心代码 */

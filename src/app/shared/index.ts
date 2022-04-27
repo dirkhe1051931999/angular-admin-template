@@ -7,3 +7,4 @@ export * from './services/storage.service';
 // utils
 export * from './utils/colors';
 export * from './utils/icons';
+export * from './utils/tool';

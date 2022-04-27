@@ -12,7 +12,7 @@ import { AuthService, User } from '@core/authentication';
       [matMenuTriggerFor]="menu"
     >
       <img class="matero-avatar" [src]="user.avatar" width="32" alt="avatar" />
-      <span class="matero-username" fxHide.lt-sm>{{ 'user.name' }}</span>
+      <span class="matero-username" fxHide.lt-sm>{{ user.name }}</span>
     </button>
 
     <mat-menu #menu="matMenu">

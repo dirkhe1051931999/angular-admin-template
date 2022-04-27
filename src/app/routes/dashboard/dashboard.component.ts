@@ -10,8 +10,8 @@ export class DashboardComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // this.http.get<any[]>('https://jsonplaceholder.typicode.com/alb2ums').subscribe(res => {
-    //   console.log(res);
-    // });
+    this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums').subscribe(res => {
+      console.log(res);
+    });
   }
 }

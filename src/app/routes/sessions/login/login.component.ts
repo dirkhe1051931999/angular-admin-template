@@ -38,10 +38,11 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = true;
     this.auth
       .login(this.username?.value, this.password?.value, this.rememberMe?.value)
-      .pipe(filter(authenticated => {
-        console.log(authenticated);
-        return authenticated
-      }))
+      .pipe(
+        filter(authenticated => {
+          return authenticated;
+        })
+      )
       .subscribe({
         next: () => {
           this.router.navigateByUrl('/');

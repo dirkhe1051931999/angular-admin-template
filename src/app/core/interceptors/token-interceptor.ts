@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-// import { TokenService } from '@core/authentication';
+import { TokenService } from '@core/authentication';
 import { BASE_URL } from './base-url-interceptor';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private hasHttpScheme = (url: string) => new RegExp('^http(s)?://', 'i').test(url);
 
   constructor(
-    // private tokenService: TokenService,
+    private tokenService: TokenService,
     private router: Router,
     @Optional() @Inject(BASE_URL) private baseUrl?: string
   ) {}
@@ -29,28 +29,28 @@ export class TokenInterceptor implements HttpInterceptor {
       }
 
       if (this.router.url.includes('/auth/login')) {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/');
       }
     };
-
-    // if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
-    //   return next
-    //     .handle(
-    //       request.clone({
-    //         headers: request.headers.append('Authorization', this.tokenService.getBearerToken()),
-    //         withCredentials: true,
-    //       })
-    //     )
-    //     .pipe(
-    //       catchError((error: HttpErrorResponse) => {
-    //         if (error.status === 401) {
-    //           this.tokenService.clear();
-    //         }
-    //         return throwError(error);
-    //       }),
-    //       tap(() => handler())
-    //     );
-    // }
+    // 请求带上JWT的token
+    if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
+      return next
+        .handle(
+          request.clone({
+            headers: request.headers.append('Authorization', this.tokenService.getBearerToken()),
+            withCredentials: true,
+          })
+        )
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+              this.tokenService.clear();
+            }
+            return throwError(() => error);
+          }),
+          tap(() => handler())
+        );
+    }
 
     return next.handle(request).pipe(tap(() => handler()));
   }

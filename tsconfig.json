@@ -28,7 +28,9 @@
       "@testing": ["testing"],
       "@testing/*": ["testing/*"],
       "@env": ["environments"],
-      "@env/*": ["environments/*"]
+      "@env/*": ["environments/*"],
+      "@test": ["app/test"],
+      "@test/*": ["app/test/*"]
     }
   },
   "angularCompilerOptions": {

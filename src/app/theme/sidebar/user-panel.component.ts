@@ -30,7 +30,9 @@ export class UserPanelComponent implements OnInit {
   constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.auth.user().subscribe(user => (this.user = user));
+    this.auth.user().subscribe(user => {
+      this.user = user;
+    });
   }
 
   logout() {

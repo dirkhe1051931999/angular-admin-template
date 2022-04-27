@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '@core/authentication';
+import { AuthGuard, RedirectGuard } from '@core/authentication';
 import { environment } from '@env/environment';
 import { AdminLayoutComponent } from '@theme/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from '@theme/auth-layout/auth-layout.component';
@@ -18,12 +18,17 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
+      {
+        path: 'permissions',
+        loadChildren: () =>
+          import('./permissions/permissions.module').then(m => m.PermissionsModule),
+      },
     ],
   },
   {
     path: 'auth',
     component: AuthLayoutComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [RedirectGuard],
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },

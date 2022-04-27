@@ -8,8 +8,7 @@
     <mat-icon aria-label="Example icon-button with a settings icon">settings</mat-icon>
   </button>
 </div>
-
-<div [class]="{ 'customizer-panel': true, 'mat-elevation-z12 opened': opened }">
+<div [class]="{ 'mat-elevation-z12': opened, 'opened': opened }" class="customizer-panel">
   <h2 fxLayout="row" fxLayoutAlign="space-between center" class="f-w-400">
     <span>Configuration</span>
     <button mat-icon-button (click)="closePanel()">

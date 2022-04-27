@@ -10,6 +10,7 @@ export interface AppSettings {
   language: string;
   noCheckResponsePath: string[];
   successCode: string[];
+  appName: string;
 }
 
 export const defaults: AppSettings = {
@@ -24,4 +25,5 @@ export const defaults: AppSettings = {
   language: 'en-US',
   noCheckResponsePath: ['/api/'],
   successCode: ['200', '00000'],
+  appName: 'angular-admin-template',
 };

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { deepClone, isJsonObjEqual } from '@shared';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
@@ -37,35 +38,36 @@ export interface Menu {
 export class MenuService {
   private menu$: BehaviorSubject<Menu[]> = new BehaviorSubject<Menu[]>([]);
 
-  /** Get all the menu data. */
+  /** 获取所有菜单数据。 */
   getAll(): Observable<Menu[]> {
     return this.menu$.asObservable();
   }
 
-  /** Observe the change of menu data. */
+  /** 观察菜单数据的变化。 */
   change(): Observable<Menu[]> {
     return this.menu$.pipe(share());
   }
 
-  /** Initialize the menu data. */
+  /** 初始化菜单数据。 */
   set(menu: Menu[]): Observable<Menu[]> {
     this.menu$.next(menu);
+    // asObservable:这样做的目的是防止从 API 中泄露 Subject 的“观察者端”。基本上是为了防止当您不希望人们能够“下一个”进入结果可观察对象时出现泄漏的抽象
     return this.menu$.asObservable();
   }
 
-  /** Add one item to the menu data. */
+  /** 向菜单数据添加一项。 */
   add(menu: Menu) {
     const tmpMenu = this.menu$.value;
     tmpMenu.push(menu);
     this.menu$.next(tmpMenu);
   }
 
-  /** Reset the menu data. */
+  /** 重置菜单数据。 */
   reset() {
     this.menu$.next([]);
   }
 
-  /** Delete empty values and rebuild route. */
+  /** 删除空值并重建路由。 */
   buildRoute(routeArr: string[]): string {
     let route = '';
     routeArr.forEach(item => {
@@ -76,12 +78,12 @@ export class MenuService {
     return route;
   }
 
-  /** Get the menu item name based on current route. */
+  /** 根据当前路由获取菜单项名称。 */
   getItemName(routeArr: string[]): string {
     return this.getLevel(routeArr)[routeArr.length - 1];
   }
 
-  // Whether is a leaf menu
+  // 是否为叶子菜单
   private isLeafItem(item: MenuChildrenItem): boolean {
     const cond0 = item.route === undefined;
     const cond1 = item.children === undefined;
@@ -89,24 +91,14 @@ export class MenuService {
     return cond0 || cond1 || cond2;
   }
 
-  // Deep clone object could be jsonized
-  private deepClone(obj: any): any {
-    return JSON.parse(JSON.stringify(obj));
-  }
-
-  // Whether two objects could be jsonized equal
-  private isJsonObjEqual(obj0: any, obj1: any): boolean {
-    return JSON.stringify(obj0) === JSON.stringify(obj1);
-  }
-
-  // Whether routeArr equals realRouteArr (after remove empty route element)
+  // routeArr 是否等于 realRouteArr（删除空路由元素后）
   private isRouteEqual(routeArr: Array<string>, realRouteArr: Array<string>): boolean {
-    realRouteArr = this.deepClone(realRouteArr);
+    realRouteArr = deepClone(realRouteArr);
     realRouteArr = realRouteArr.filter(r => r !== '');
-    return this.isJsonObjEqual(routeArr, realRouteArr);
+    return isJsonObjEqual(routeArr, realRouteArr);
   }
 
-  /** Get the menu level. */
+  /** 获取menu等级 */
   getLevel(routeArr: string[]): string[] {
     let tmpArr: any[] = [];
     this.menu$.value.forEach(item => {
@@ -116,8 +108,8 @@ export class MenuService {
         let nextUnhandledLayer: any[] = [];
         for (const ele of unhandledLayer) {
           const eachItem = ele.item;
-          const currentNamePathList = this.deepClone(ele.parentNamePathList).concat(eachItem.name);
-          const currentRealRouteArr = this.deepClone(ele.realRouteArr).concat(eachItem.route);
+          const currentNamePathList = deepClone(ele.parentNamePathList).concat(eachItem.name);
+          const currentRealRouteArr = deepClone(ele.realRouteArr).concat(eachItem.route);
           // Compare the full Array for expandable
           if (this.isRouteEqual(routeArr, currentRealRouteArr)) {
             tmpArr = currentNamePathList;
@@ -138,7 +130,7 @@ export class MenuService {
     return tmpArr;
   }
 
-  /** Add namespace for translation. */
+  /** 为翻译添加命名空间. */
   addNamespace(menu: Menu[] | MenuChildrenItem[], namespace: string) {
     menu.forEach(menuItem => {
       menuItem.name = `${namespace}.${menuItem.name}`;

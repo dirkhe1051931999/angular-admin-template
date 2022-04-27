@@ -35,7 +35,12 @@ export class SettingsService {
   getNoCheckResponsePathList() {
     return this.options.noCheckResponsePath;
   }
+
   getSuccessCode() {
     return this.options.successCode;
+  }
+
+  getAppName() {
+    return this.options.appName;
   }
 }
