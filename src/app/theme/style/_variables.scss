@@ -1,4 +1,68 @@
 @use '@angular/material' as mat;
+$my-primary: (
+  50: #e0f2f1,
+  100: #b2dfdb,
+  200: #80cbc4,
+  300: #4db6ac,
+  400: #26a69a,
+  500: #009d8d,
+  600: #00897b,
+  700: #00796b,
+  800: #00695c,
+  900: #004d40,
+  A100: #a7ffeb,
+  A200: #64ffda,
+  A400: #1de9b6,
+  A700: #00bfa5,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  ),
+) !default;
+$my-negative: (
+  50: #fbe9e7,
+  100: #ffccbc,
+  200: #ffab91,
+  300: #ff8a65,
+  400: #ff7043,
+  500: #ff5722,
+  600: #f4511e,
+  700: #e64a19,
+  800: #d84315,
+  900: #bf360c,
+  A100: #ff9e80,
+  A200: #ff6e40,
+  A400: #ff3d00,
+  A700: #dd2c00,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  ),
+) !default;
 
 // Layout
 $gutter: 16px !default;
@@ -28,14 +92,16 @@ $font-family-base: $font-family-sans-serif !default;
 // adapting to different screen sizes, for use in media queries.
 $breakpoints: (
   xsmall: 0,
-  small:  600px,
+  small: 600px,
   medium: 960px,
-  large:  1280px,
-  xlarge: 1920px
+  large: 1280px,
+  xlarge: 1920px,
 ) !default;
 
 // Material colors
 $mat-colors: (
+  primary: $my-primary,
+  negative: $my-negative,
   red: mat.$red-palette,
   pink: mat.$pink-palette,
   purple: mat.$purple-palette,
@@ -58,9 +124,9 @@ $mat-colors: (
   white: white,
   black: black,
   light: white,
-  dark: rgba(black, .87),
+  dark: rgba(black, 0.87),
 ) !default;
 
 // The material default animation curves
 $swift-ease-out-duration: 400ms !default;
-$swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
+$swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;

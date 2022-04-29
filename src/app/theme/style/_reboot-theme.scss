@@ -4,17 +4,34 @@
 
 @mixin theme($theme) {
   $primary: map.get($theme, primary);
+  $negative: map.get($theme, accent);
   $foreground: map.get($theme, foreground);
 
   a {
     color: mat.get-color-from-palette($primary);
-
     &:hover {
       color: color.adjust(mat.get-color-from-palette($primary), $lightness: 10%);
+      text-decoration: underline;
+    }
+  }
+  a[primary] {
+    color: mat.get-color-from-palette($primary);
+
+    &:hover {
+      color: mat.get-color-from-palette($primary, 900);
+      text-decoration: underline;
+    }
+  }
+  a[negative] {
+    color: mat.get-color-from-palette($negative);
+    &:hover {
+      // color: color.adjust(mat.get-color-from-palette($primary), $lightness: 1%);
+      color: mat.get-color-from-palette($negative, 900);
+      text-decoration: underline;
     }
   }
 
   code {
-    background-color: rgba(mat.get-color-from-palette($foreground, secondary-text), .03);
+    background-color: rgba(mat.get-color-from-palette($foreground, secondary-text), 0.03);
   }
 }
