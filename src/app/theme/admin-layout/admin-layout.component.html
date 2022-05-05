@@ -10,7 +10,7 @@
   }"
   [dir]="options.dir!"
 >
-  <ng-progress></ng-progress>
+  <ng-progress color="#009d8d" [spinner]="false" [thick]="true"></ng-progress>
   <!-- Header"-->
   <app-header
     *ngIf="options.showHeader && options.headerPos === 'above'"

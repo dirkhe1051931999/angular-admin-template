@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use 'app-theme';
-@use '../app/theme/style//variables' as *;
+@use '../app/theme/style/variables' as *;
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -9,9 +9,9 @@
 // Light style  浅色
 //
 // 定义一个调色板，参数：“默认”色调、“较浅”色调、“较深”色调和“文本”色调
-$primary: mat.define-palette($my-primary, 500);
-$accent: mat.define-palette($my-negative, 500);
-$warn: mat.define-palette(mat.$amber-palette);
+$primary: mat.define-palette($my-primary, 500); // 主色调
+$accent: mat.define-palette($my-primary, 500); // 主色调
+$warn: mat.define-palette($my-negative, 500); // 警告色调，消极色调
 $typography: mat.define-typography-config(
   $font-family: 'NotoSansSC',
   $headline: mat.define-typography-level(32px, 48px, 700),

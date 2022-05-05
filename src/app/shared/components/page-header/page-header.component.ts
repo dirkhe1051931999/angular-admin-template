@@ -6,7 +6,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 @Component({
   selector: 'page-header',
   host: {
-    class: 'matero-page-header',
+    class: 'matero-page-header bg-primary-500',
   },
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],

@@ -70,7 +70,7 @@ export class LoginService {
         type: 'link',
         icon: 'dashboard',
         badge: {
-          color: 'red-500',
+          color: 'negative-500',
           value: '5',
         },
       },
@@ -80,7 +80,7 @@ export class LoginService {
         type: 'sub',
         icon: 'lock',
         label: {
-          color: 'indigo-500',
+          color: 'primary-500',
           value: 'new',
         },
         children: [

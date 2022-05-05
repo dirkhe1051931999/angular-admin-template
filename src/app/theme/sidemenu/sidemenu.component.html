@@ -97,7 +97,7 @@
     {{ item.label.value }}
   </span>
   <span fxFlex></span>
-  <span class="menu-badge bg-{{ item.badge.color }}" *ngIf="item.badge">
+  <span class="bg-{{ item.badge.color }} menu-badge" *ngIf="item.badge">
     {{ item.badge.value }}
   </span>
   <mat-icon class="menu-caret" *ngIf="item.type !== 'link'">
