@@ -1,3 +1,6 @@
+/**
+ * 这个主要拦截http状态码200，但是body的code不成功错误
+ */
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -10,6 +13,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { SettingsService } from '@core/bootstrap/settings.service';
+import { msg } from '@shared/utils/msg';
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
   constructor(private toast: ToastrService, private settingsService: SettingsService) {}
@@ -19,25 +23,26 @@ export class DefaultInterceptor implements HttpInterceptor {
     if (this.settingsService.getNoCheckResponsePathList().includes(req.url))
       return next.handle(req);
     // 检查response body data
-    return next.handle(req).pipe(mergeMap((event: HttpEvent<any>) => this.handleOkReq(event)));
+    return next.handle(req).pipe(mergeMap((event: HttpEvent<any>) => this.handleOkReq(req, event)));
   }
 
-  private handleOkReq(event: HttpEvent<any>): Observable<any> {
-    if (event instanceof HttpResponse) {
-      // 获取code，映射错误
-      const body: any = event.body;
-      if (
-        body &&
-        'code' in body &&
-        !this.settingsService.getSuccessCode().includes(String(body.code))
-      ) {
-        if (body.msg) {
-          this.toast.error(body.msg);
+  private handleOkReq(req: HttpRequest<any>, res: HttpEvent<any>): Observable<any> {
+    if (res instanceof HttpResponse) {
+      const body: any = res.body;
+      if (body && 'rspcode' in body) {
+        const code = body.rspcode;
+        // 响应失败的code，根据语言，映射message，提示错误
+        if (!this.settingsService.getSuccessCode().includes(String(code))) {
+          const DEFAULT_CODE = '00001';
+          const lang = this.settingsService.getLanguage();
+          const langList = ['en-US', 'zh-CN', 'zh-TW'];
+          const index = langList.indexOf(lang) || 0;
+          const message = !msg[code] ? msg[DEFAULT_CODE][index] : msg[code][index];
+          this.toast.error(message);
+          return throwError(() => [message, req.method, req.urlWithParams, req.body]);
         }
-        return throwError(() => []);
       }
     }
-    // Pass down event if everything is OK
-    return of(event);
+    return of(res);
   }
 }

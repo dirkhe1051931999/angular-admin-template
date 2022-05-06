@@ -10,5 +10,5 @@ export const admin: User = {
 export const guest: User = {
   name: 'unknown',
   email: 'unknown',
-  avatar: './assets/images/avatar-default.jpg',
+  avatar: './assets/images/logo.png',
 };

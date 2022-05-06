@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/');
       }
     };
-    // 请求带上JWT的token
+    // 请求带上JWT的token，token存在且有效，不是http头的接口，
     if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
       return next
         .handle(

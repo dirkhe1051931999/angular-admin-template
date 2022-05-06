@@ -13,5 +13,12 @@ export class DashboardComponent implements OnInit {
     this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums').subscribe(res => {
       console.log(res);
     });
+    this.http.get<any[]>('https://yun1.thecover.cn/fmio/ip').subscribe(res => {
+      console.log(res);
+    });
+    this.http.get<any[]>('https://xw.yc.ifeng.com/api/book/store/3').subscribe(res => {
+      console.log(res);
+    });
+    
   }
 }

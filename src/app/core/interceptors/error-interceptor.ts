@@ -1,3 +1,6 @@
+/**
+ * 这个主要拦截http状态码不是200的
+ */
 import { Injectable } from '@angular/core';
 import {
   HttpErrorResponse,
@@ -10,6 +13,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { TokenService } from '@core/authentication';
 
 export enum STATUS {
   UNAUTHORIZED = 401,
@@ -20,39 +24,22 @@ export enum STATUS {
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  private errorPages = [STATUS.FORBIDDEN, STATUS.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR];
-
-  private getMessage = (error: HttpErrorResponse) => {
-    if (error.error?.message) {
-      return error.error.message;
-    }
-
-    if (error.error?.msg) {
-      return error.error.msg;
-    }
-
-    return `${error.status} ${error.statusText}`;
-  };
-
-  constructor(private router: Router, private toast: ToastrService) {}
-
+  constructor(
+    private router: Router,
+    private toast: ToastrService,
+    private tokenService: TokenService
+  ) {}
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next
       .handle(request)
       .pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
-
   private handleError(error: HttpErrorResponse) {
-    if (this.errorPages.includes(error.status)) {
-      this.toast.error(this.getMessage(error));
-    } else {
-      console.error('ERROR', error);
-      this.toast.error(this.getMessage(error));
-      if (error.status === STATUS.UNAUTHORIZED) {
-        this.router.navigateByUrl('/auth/login');
-      }
+    // http 401
+    if (error.status === STATUS.UNAUTHORIZED) {
+      this.tokenService.clear();
+      this.router.navigateByUrl('/auth/login');
     }
-
-    return throwError(() => error);
+    return throwError(() => [error]);
   }
 }

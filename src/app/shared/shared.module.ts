@@ -9,8 +9,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { ErrorCodeComponent } from './components/error-code/error-code.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormlyModule } from '@ngx-formly/core';
@@ -38,7 +36,7 @@ const MODULES: any[] = [
   NgxPermissionsModule,
   ToastrModule,
 ];
-const COMPONENTS: any[] = [BreadcrumbComponent, PageHeaderComponent, ErrorCodeComponent];
+const COMPONENTS: any[] = [ErrorCodeComponent];
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];
 const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];

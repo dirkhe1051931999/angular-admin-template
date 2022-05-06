@@ -1,9 +1,12 @@
+/**
+ * 这个主要拦截url，根据条件是否设置baseurl
+ *  base url 从 environments/environment.prod.ts || environments/environment.ts 读取
+ */
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export const BASE_URL = new InjectionToken<string>('BASE_URL');
-
+export const BASE_URL = new InjectionToken<string>('');
 @Injectable()
 export class BaseUrlInterceptor implements HttpInterceptor {
   private requestAssetsData = (url: string) =>

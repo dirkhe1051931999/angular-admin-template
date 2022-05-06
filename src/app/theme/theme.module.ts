@@ -20,6 +20,7 @@ import { TopmenuPanelComponent } from './topmenu/topmenu-panel.component';
 import { CustomizerComponent } from './customizer/customizer.component';
 import { UserPanelComponent } from './sidebar/user-panel.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -40,6 +41,7 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
     TopmenuComponent,
     TopmenuPanelComponent,
     CustomizerComponent,
+    BreadcrumbComponent
   ],
   imports: [SharedModule, ThemeRoutingModule],
 })

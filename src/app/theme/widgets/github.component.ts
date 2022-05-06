@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <a
       mat-icon-button
       class="matero-toolbar-button"
-      href="https://github.com/ng-matero/ng-matero"
+      href="https://github.com/dirkhe1051931999/angular-admin-template"
       target="_blank"
     >
       <svg viewBox="0 0 16 16" class="mat-icon">

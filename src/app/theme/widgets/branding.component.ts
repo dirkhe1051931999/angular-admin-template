@@ -5,7 +5,7 @@ import { SettingsService } from '@core';
   selector: 'app-branding',
   template: `
     <div class="matero-branding">
-      <img src="./assets/images/matero.png" class="matero-branding-logo-expanded" alt="logo" />
+      <img src="./assets/images/logo.png" class="matero-branding-logo-expanded" alt="logo" />
       <span class="matero-branding-name fs-12">{{ title }}</span>
     </div>
   `,
