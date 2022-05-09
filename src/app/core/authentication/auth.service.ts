@@ -13,17 +13,12 @@ export class AuthService {
   // BehaviorSubject：Subject 的一种变体，它需要一个初始值并在订阅时发出其当前值。
   private user$ = new BehaviorSubject<User>({});
   // merge,将多个 observables 转换成单个 observable 。
-  private change$ = merge(
-    this.tokenService.change(),
-    this.tokenService.refresh().pipe(switchMap(() => this.refresh()))
-  ).pipe(
+  private change$ = merge(this.tokenService.change()).pipe(
     switchMap(() => this.assignUser()),
     // share：在多个订阅者间共享源 observable
     share()
   );
-
   constructor(private loginService: LoginService, private tokenService: TokenService) {}
-
   init() {
     return new Promise<void>(resolve => this.change$.subscribe(() => resolve()));
   }
@@ -41,16 +36,6 @@ export class AuthService {
       }),
       map(() => this.check())
     );
-  }
-  // 刷新用户信息
-  refresh() {
-    return this.loginService
-      .refresh(filterObject({ refresh_token: this.tokenService.getRefreshToken() }))
-      .pipe(
-        catchError(() => of(undefined)),
-        tap(token => this.tokenService.set(token)),
-        map(() => this.check())
-      );
   }
   // 退出登录
   logout() {

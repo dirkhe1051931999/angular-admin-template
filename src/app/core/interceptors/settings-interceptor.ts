@@ -1,3 +1,6 @@
+/**
+ * 这个是个设置header头的拦截
+ */
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';

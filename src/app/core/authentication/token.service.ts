@@ -1,37 +1,23 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription, timer } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { LocalStorageService, MemoryStorageService } from '@shared';
+import { CookieService } from '@shared';
 import { Token } from './interface';
 import { BaseToken } from './token';
 import { TokenFactory } from './token-factory.service';
 import { currentTimestamp, filterObject } from './helpers';
-import { SettingsService } from '@core/bootstrap/settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TokenService implements OnDestroy {
-  private tokenName: string;
-
+export class TokenService {
   private change$ = new BehaviorSubject<BaseToken | undefined>(undefined);
-  private refresh$ = new Subject<BaseToken | undefined>();
-  private timer$?: Subscription;
-
   private _token?: BaseToken;
-
-  constructor(
-    private store: LocalStorageService,
-    private factory: TokenFactory,
-    settingsService: SettingsService
-  ) {
-    this.tokenName = settingsService.getAppName() + '-token';
-  }
+  constructor(private store: CookieService, private factory: TokenFactory) {}
   // 获取token，token从localstorage中获取，没有就返回空
   private get token(): BaseToken | undefined {
     if (!this._token) {
-      this._token = this.factory.create(this.store.get(this.tokenName));
-      console.log(this._token)
+      this._token = this.factory.create(this.store.getToken());
     }
     return this._token;
   }
@@ -39,14 +25,6 @@ export class TokenService implements OnDestroy {
   change(): Observable<BaseToken | undefined> {
     return this.change$.pipe(
       // share：在多个订阅者间共享源 observable
-      share()
-    );
-  }
-  //
-  refresh(): Observable<BaseToken | undefined> {
-    this.buildRefresh();
-    return this.refresh$.pipe(
-      //  share：在多个订阅者间共享源 observable
       share()
     );
   }
@@ -67,42 +45,21 @@ export class TokenService implements OnDestroy {
   getBearerToken(): string {
     return this.token?.getBearerToken() ?? '';
   }
-  // 获取refreshToken
-  getRefreshToken(): string | void {
-    return this.token?.refresh_token;
-  }
-  ngOnDestroy(): void {
-    this.clearRefresh();
+  getNormalToken(): string {
+    return this.token?.getNormalToken() ?? '';
   }
   private save(token?: Token): void {
     // remove和add封装起来
     this._token = undefined;
     if (!token) {
       // token remove
-      this.store.remove(this.tokenName);
-      // this.merory.remove(this.tokenName);
+      this.store.removeToken();
     } else {
-      const value = Object.assign({ access_token: '', token_type: 'Bearer' }, token, {
+      const value = Object.assign({ access_token: '', token_type: 'Normal' }, token, {
         exp: token.expires_in ? currentTimestamp() + token.expires_in : null,
       });
-      this.store.set(this.tokenName, filterObject(value));
-      // this.merory.set(this.tokenName, filterObject(value));
+      this.store.setToken(filterObject(value));
     }
     this.change$.next(this.token);
-    this.buildRefresh();
-  }
-  private buildRefresh() {
-    this.clearRefresh();
-
-    if (this.token?.needRefresh()) {
-      this.timer$ = timer(this.token.getRefreshTime() * 1000).subscribe(() => {
-        this.refresh$.next(this.token);
-      });
-    }
-  }
-  private clearRefresh() {
-    if (this.timer$ && !this.timer$.closed) {
-      this.timer$.unsubscribe();
-    }
   }
 }

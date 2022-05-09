@@ -8,20 +8,12 @@ export abstract class BaseToken {
     return this.attributes.access_token;
   }
 
-  get refresh_token(): string | void {
-    return this.attributes.refresh_token;
-  }
-
   get token_type(): string {
     return this.attributes.token_type ?? 'bearer';
   }
 
-  get exp(): number | void {
-    return this.attributes.exp;
-  }
-
   valid(): boolean {
-    return this.hasAccessToken() && !this.isExpired();
+    return this.hasAccessToken();
   }
 
   getBearerToken(): string {
@@ -30,20 +22,12 @@ export abstract class BaseToken {
       : '';
   }
 
-  needRefresh(): boolean {
-    return this.exp !== undefined && this.exp >= 0;
-  }
-
-  getRefreshTime(): number {
-    return timeLeft((this.exp ?? 0) - 5);
+  getNormalToken(): string {
+    return this.access_token ?? '';
   }
 
   private hasAccessToken(): boolean {
     return !!this.access_token;
-  }
-
-  private isExpired(): boolean {
-    return this.exp !== undefined && this.exp - currentTimestamp() <= 0;
   }
 }
 

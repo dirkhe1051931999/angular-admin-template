@@ -1,8 +1,25 @@
 import { Injectable } from '@angular/core';
-
+import { AppSettings, SettingsService } from '@core';
+import Cookies from 'js-cookie';
 @Injectable({
   providedIn: 'root',
 })
+export class CookieService {
+  infiniteTime = new Date(new Date().getTime() + 999999999 * 60 * 1000);
+  config = {
+    path: '/',
+    expires: this.infiniteTime,
+  };
+  tokenKey: string;
+  constructor(settingsService: SettingsService) {
+    this.tokenKey = settingsService.getAppName() + '-' + 'token';
+  }
+  // token
+  getToken = () => JSON.parse(Cookies.get(this.tokenKey) || '{}');
+  setToken = (token: any) => Cookies.set(this.tokenKey, JSON.stringify(token), this.config);
+  removeToken = () => Cookies.remove(this.tokenKey);
+}
+
 export class LocalStorageService {
   get(key: string) {
     return JSON.parse(localStorage.getItem(key) || '{}') || {};

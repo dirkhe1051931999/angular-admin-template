@@ -1,3 +1,6 @@
+/**
+ * 这个是个设置请求头header的auth信息
+ */
 import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpErrorResponse,
@@ -14,8 +17,6 @@ import { BASE_URL } from './base-url-interceptor';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  private hasHttpScheme = (url: string) => new RegExp('^http(s)?://', 'i').test(url);
-
   constructor(
     private tokenService: TokenService,
     private router: Router,
@@ -27,7 +28,6 @@ export class TokenInterceptor implements HttpInterceptor {
       if (request.url.includes('/auth/logout')) {
         this.router.navigateByUrl('/auth/login');
       }
-
       if (this.router.url.includes('/auth/login')) {
         this.router.navigateByUrl('/');
       }
@@ -37,7 +37,9 @@ export class TokenInterceptor implements HttpInterceptor {
       return next
         .handle(
           request.clone({
-            headers: request.headers.append('Authorization', this.tokenService.getBearerToken()),
+            headers: request.headers
+              .set('token', this.tokenService.getNormalToken()),
+            // 当配置了xhr.withCredentials = true时，必须在后端增加 response 头信息Access-Control-Allow-Origin，且必须指定域名，而不能指定为*
             withCredentials: true,
           })
         )
@@ -45,27 +47,22 @@ export class TokenInterceptor implements HttpInterceptor {
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
               this.tokenService.clear();
+              this.router.navigateByUrl('/auth/login');
             }
             return throwError(() => error);
           }),
           tap(() => handler())
         );
     }
-
     return next.handle(request).pipe(tap(() => handler()));
   }
 
   private shouldAppendToken(url: string) {
-    return !this.hasHttpScheme(url) || this.includeBaseUrl(url);
+    return !new RegExp('^http(s)?://', 'i').test(url) || this.includeBaseUrl(url);
   }
-
   private includeBaseUrl(url: string) {
-    if (!this.baseUrl) {
-      return false;
-    }
-
+    if (!this.baseUrl) return false;
     const baseUrl = this.baseUrl.replace(/\/$/, '');
-
     return new RegExp(`^${baseUrl}`, 'i').test(url);
   }
 }
