@@ -12,8 +12,8 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { SettingsService } from '@core/bootstrap/settings.service';
 import { msg } from '@shared/utils/msg';
+import { SettingsService } from '@core';
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
   constructor(private toast: ToastrService, private settingsService: SettingsService) {}

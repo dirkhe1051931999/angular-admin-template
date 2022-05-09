@@ -1,6 +1,25 @@
-import { base64, capitalize, currentTimestamp, timeLeft } from './helpers';
+import { base64, capitalize } from '@shared';
 import { Token } from './interface';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root',
+})
+export class TokenFactory {
+  create(attributes: Token): BaseToken | undefined {
+    // token不存在
+    if (!attributes.access_token) {
+      return undefined;
+    }
+    // jwt token
+    if (JwtToken.is(attributes.access_token)) {
+      return new JwtToken(attributes);
+    }
+    // token存在
+    return new SimpleToken(attributes);
+  }
+}
+// 一个基本的token类
 export abstract class BaseToken {
   constructor(protected attributes: Token) {}
 
@@ -11,31 +30,26 @@ export abstract class BaseToken {
   get token_type(): string {
     return this.attributes.token_type ?? 'bearer';
   }
-
   valid(): boolean {
     return this.hasAccessToken();
   }
-
   getBearerToken(): string {
     return this.access_token
       ? [capitalize(this.token_type), this.access_token].join(' ').trim()
       : '';
   }
-
   getNormalToken(): string {
     return this.access_token ?? '';
   }
-
   private hasAccessToken(): boolean {
     return !!this.access_token;
   }
 }
-
+// 简单的token
 export class SimpleToken extends BaseToken {}
-
+// jwt token
 export class JwtToken extends SimpleToken {
   private _payload?: { exp?: number | void };
-
   static is(accessToken: string): boolean {
     try {
       const [_header] = accessToken.split('.');
@@ -46,11 +60,9 @@ export class JwtToken extends SimpleToken {
       return false;
     }
   }
-
   get exp(): number | void {
     return this.payload?.exp;
   }
-
   private get payload(): { exp?: number | void } {
     if (!this.access_token) {
       return {};
@@ -65,7 +77,6 @@ export class JwtToken extends SimpleToken {
     if (!data.exp) {
       data.exp = this.attributes.exp;
     }
-
     return (this._payload = data);
   }
 }

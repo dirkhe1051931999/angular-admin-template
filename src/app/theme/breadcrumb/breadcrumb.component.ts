@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Input, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { MenuService } from '@core/bootstrap/menu.service';
+import { MenuService } from '@core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

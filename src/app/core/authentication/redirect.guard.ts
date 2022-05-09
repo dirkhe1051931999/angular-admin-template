@@ -1,3 +1,4 @@
+/* 在token有效时进入login页面，会重定向，白名单管理 */
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

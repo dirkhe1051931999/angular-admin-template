@@ -14,10 +14,9 @@ export class StartupService {
     private permissonsService: NgxPermissionsService,
     private rolesService: NgxRolesService
   ) {}
-
   /**
-   * Load the application only after get the menu or other essential informations
-   * such as permissions and roles.
+   * 仅在获取菜单或其他基本信息*（例如权限和角色）后才加载应用程序。
+   * 例如权限和角色。
    */
   load() {
     return new Promise<void>((resolve, reject) => {
@@ -60,6 +59,6 @@ export class StartupService {
     // 定义多个角色:ADMIN,GUEST,MANAGER
     this.rolesService.addRoles({ ADMIN: permissions });
     // 可以同时添加具有角色的权限.
-    // this.rolesService.addRolesWithPermissions({ ADMIN: permissions });
+    this.rolesService.addRolesWithPermissions({ ADMIN: permissions });
   }
 }

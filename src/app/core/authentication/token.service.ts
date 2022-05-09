@@ -1,11 +1,11 @@
+/* token server */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { CookieService } from '@shared';
+import { filterObject } from '@shared';
 import { Token } from './interface';
-import { BaseToken } from './token';
-import { TokenFactory } from './token-factory.service';
-import { currentTimestamp, filterObject } from './helpers';
+import { BaseToken, TokenFactory } from './token-factory';
+import { CookieService } from '@core';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +20,18 @@ export class TokenService {
       this._token = this.factory.create(this.store.getToken());
     }
     return this._token;
+  }
+  private save(token?: Token): void {
+    // remove和add封装起来
+    this._token = undefined;
+    if (!token) {
+      // token remove
+      this.store.removeToken();
+    } else {
+      const value = Object.assign({ access_token: '', token_type: 'Normal' }, token);
+      this.store.setToken(filterObject(value));
+    }
+    this.change$.next(this.token);
   }
   // 观察token变化
   change(): Observable<BaseToken | undefined> {
@@ -45,21 +57,8 @@ export class TokenService {
   getBearerToken(): string {
     return this.token?.getBearerToken() ?? '';
   }
+  // 获取普通token
   getNormalToken(): string {
     return this.token?.getNormalToken() ?? '';
-  }
-  private save(token?: Token): void {
-    // remove和add封装起来
-    this._token = undefined;
-    if (!token) {
-      // token remove
-      this.store.removeToken();
-    } else {
-      const value = Object.assign({ access_token: '', token_type: 'Normal' }, token, {
-        exp: token.expires_in ? currentTimestamp() + token.expires_in : null,
-      });
-      this.store.setToken(filterObject(value));
-    }
-    this.change$.next(this.token);
   }
 }

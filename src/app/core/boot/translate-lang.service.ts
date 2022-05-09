@@ -12,22 +12,20 @@ export class TranslateLangService {
     private translate: TranslateService,
     private settings: SettingsService
   ) {}
-
   load() {
     return new Promise<void>(resolve => {
       const locationInitialized = this.injector.get(LOCATION_INITIALIZED, Promise.resolve());
       locationInitialized.then(() => {
         const browserLang = navigator.language;
         const defaultLang = browserLang.match(/en-US|zh-CN|zh-TW/) ? browserLang : 'en-US';
-
         this.settings.setLanguage(defaultLang);
         this.translate.setDefaultLang(defaultLang);
         this.translate.use(defaultLang).subscribe({
           next() {
-            console.log(`Successfully initialized '${defaultLang}' language.'`);
+            console.log(`国际化初始化成功，语言是：${defaultLang}`);
           },
           error() {
-            console.error(`Problem with '${defaultLang}' language initialization.'`);
+            console.error(`国际化初始化失败，语言是：${defaultLang}`);
           },
           complete() {
             resolve();

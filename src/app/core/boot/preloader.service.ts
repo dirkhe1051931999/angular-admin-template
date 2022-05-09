@@ -6,13 +6,10 @@ import { DOCUMENT } from '@angular/common';
 })
 export class PreloaderService {
   private selector = 'globalLoader';
-
   constructor(@Inject(DOCUMENT) private document: Document) {}
-
   private getElement() {
     return this.document.getElementById(this.selector);
   }
-
   hide() {
     const el = this.getElement();
     if (el) {

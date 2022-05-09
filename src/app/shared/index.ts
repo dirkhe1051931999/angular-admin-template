@@ -3,8 +3,8 @@ export * from './shared.module';
 export * from './services/paginator-i18n.service';
 export * from './services/message.service';
 export * from './services/directionality.service';
-export * from './services/storage.service';
 // utils
 export * from './utils/colors';
 export * from './utils/icons';
 export * from './utils/tool';
+export * from './utils/msg';

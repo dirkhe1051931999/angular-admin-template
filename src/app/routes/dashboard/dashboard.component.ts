@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService, parseTime } from '@shared';
 
 @Component({
@@ -8,8 +9,12 @@ import { MessageService, parseTime } from '@shared';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private http: HttpClient, private messenger: MessageService) {}
-
+  constructor(
+    private http: HttpClient,
+    private messenger: MessageService,
+    private fb: FormBuilder
+  ) {}
+  timestamp = new Date();
   ngOnInit(): void {
     this.http.get<any[]>('https://jsonplaceholder.typicode.com/albums').subscribe(res => {
       console.log(res);

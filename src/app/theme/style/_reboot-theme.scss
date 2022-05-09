@@ -4,7 +4,7 @@
 
 @mixin theme($theme) {
   $primary: map.get($theme, primary);
-  $negative: map.get($theme, accent);
+  $negative: map.get($theme, warn);
   $foreground: map.get($theme, foreground);
 
   a {

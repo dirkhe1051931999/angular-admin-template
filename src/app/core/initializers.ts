@@ -1,19 +1,8 @@
 import { APP_INITIALIZER } from '@angular/core';
-import { TranslateLangService } from './bootstrap/translate-lang.service';
-import { StartupService } from './bootstrap/startup.service';
-import { SanctumService } from './bootstrap/sanctum.service';
-import { MemoryStorageService } from '@shared';
-export function SanctumServiceFactory(sanctumService: SanctumService) {
-  return () => sanctumService.load();
-}
+import { TranslateLangService } from './boot/translate-lang.service';
+import { StartupService } from './boot/startup.service';
 
 export const appInitializerProviders = [
-  // {
-  //   provide: APP_INITIALIZER,
-  //   useFactory: SanctumServiceFactory,
-  //   deps: [SanctumService],
-  //   multi: true,
-  // },
   {
     provide: APP_INITIALIZER,
     useFactory: (translateLangService: TranslateLangService) => () => translateLangService.load(),
