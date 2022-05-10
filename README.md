@@ -4,7 +4,7 @@
 
 #### online preview https://dirkhe1051931999.github.io/angular/index.html
 
-<img src="https://imgtu.com/i/OtW6gK" >
+<img src="https://pic.rmb.bdstatic.com/bjh/d3013fadc2bb93c5979a37af7bb8e991.png" >
 
 ## Install the dependencies
 
