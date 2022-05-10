@@ -1,20 +1,16 @@
-<p>
-  The permissions management is powered by
-  <a href="https://github.com/AlexKhymenko/ngx-permissions" target="_blank">
-    <code>ngx-permissions</code>
-  </a>.
-</p>
-
+<div class="m-b-16">
+  <mat-slide-toggle [(ngModel)]="toggleChecked">是否切换路由后跳转到dashboard </mat-slide-toggle>
+</div>
 <mat-button-toggle-group [(ngModel)]="currentRole" (change)="onPermissionChange()">
-  <mat-button-toggle value="ADMIN">ADMIN</mat-button-toggle>
-  <mat-button-toggle value="MANAGER">MANAGER</mat-button-toggle>
-  <mat-button-toggle value="GUEST">GUEST</mat-button-toggle>
+  <mat-button-toggle [value]="item.key" *ngFor="let item of permissionsOfRole | keyvalue">{{
+    item.key
+  }}</mat-button-toggle>
 </mat-button-toggle-group>
-
 <p>
-  Your current role: <code>{{currentRole | json}}</code>
+  当前角色: <code>{{ currentRole | json }}</code>
 </p>
-
 <p>
-  Your current permissions: <code>{{currentPermissions | json}}</code>
+  当前权限: <code>{{ currentPermissions | json }}</code>
 </p>
+<div *ngxPermissionsOnly="['ADMIN', 'GUEST2']">只有'ADMIN', 'GUEST2'才能看到</div>
+<div *ngxPermissionsExcept="['MANAGER']">除了 MANAGER 都能看到</div>

@@ -59,7 +59,7 @@
     "profile": "個人信息",
     "profile.overview": "概述",
     "profile.settings": "設置",
-    "extensions": "擴展組件庫",
+    "extensions": "第三方鏈接",
     "sessions": "會話",
     "sessions.403": "403",
     "sessions.404": "404",
@@ -76,7 +76,7 @@
     "permissions": "權限管理",
     "permissions.role-switching": "切換角色",
     "permissions.route-guard": "路由守衛",
-    "permissions.test": "權限測試"
+    "permissions.test": "權限API測試"
   },
   "validations": {
     "required": "該字段必填",

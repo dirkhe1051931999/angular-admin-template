@@ -3,6 +3,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { Menu, MenuService } from './menu.service';
 import { AuthService, User } from '@core/authentication';
+import { RoleService } from './role.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class StartupService {
     private authService: AuthService,
     private menuService: MenuService,
     private permissonsService: NgxPermissionsService,
-    private rolesService: NgxRolesService
+    private rolesService: NgxRolesService,
+    private roleService: RoleService
   ) {}
   /**
    * 仅在获取菜单或其他基本信息*（例如权限和角色）后才加载应用程序。
@@ -48,17 +50,15 @@ export class StartupService {
   }
   private setPermissions(user: User) {
     // 在实际应用中，应该从用户信息中获取权限和角色。
-    // ADMIN: ['canAdd', 'canDelete', 'canEdit', 'canRead'],
-    // MANAGER: ['canAdd', 'canEdit', 'canRead'],
-    // GUEST: ['canRead'],
-    const permissions = ['canAdd', 'canDelete', 'canEdit', 'canRead'];
+    const ROLENAME = 'ADMIN'; // 需要在role-service的object中
+    const permissions = this.roleService.permissionsOfRole[ROLENAME];
+    const rolePermission = { [ROLENAME]: permissions };
     // 定义多个权限
     this.permissonsService.loadPermissions(permissions);
     // 删除所有角色
     this.rolesService.flushRoles();
-    // 定义多个角色:ADMIN,GUEST,MANAGER
-    this.rolesService.addRoles({ ADMIN: permissions });
+    this.rolesService.addRoles(rolePermission);
     // 可以同时添加具有角色的权限.
-    this.rolesService.addRolesWithPermissions({ ADMIN: permissions });
+    // this.rolesService.addRolesWithPermissions(rolePermission);
   }
 }

@@ -8,6 +8,7 @@ export * from './boot/menu.service';
 export * from './boot/startup.service';
 export * from './boot/translate-lang.service';
 export * from './boot/storage.service';
+export * from './boot/role.service';
 
 // Interceptors
 export * from './interceptors';

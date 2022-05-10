@@ -59,7 +59,7 @@
     "profile": "Profile",
     "profile.overview": "Overview",
     "profile.settings": "Settings",
-    "extensions": "Extensions",
+    "extensions": "A LINK",
     "sessions": "Sessions",
     "sessions.403": "403",
     "sessions.404": "404",
@@ -76,7 +76,7 @@
     "permissions": "Permissions",
     "permissions.role-switching": "Role Switching",
     "permissions.route-guard": "Route Guard",
-    "permissions.test": "Permission Test"
+    "permissions.test": "Permission API Test"
   },
   "validations": {
     "required": "This field is required",

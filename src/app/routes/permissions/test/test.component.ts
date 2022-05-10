@@ -17,9 +17,9 @@ export class PermissionsTestComponent implements OnInit {
     return Object.keys(this.permissionsSrv.getPermissions());
   }
 
-  addPermission() {
+  addPermission(permission: string) {
     // this.permissionsSrv.loadPermissions(['admin']);
-    this.permissionsSrv.addPermission('admin', () => {
+    this.permissionsSrv.addPermission(permission, () => {
       // return false;
       return new Promise<boolean>((resolve, reject) => {
         setTimeout(() => resolve(true), 2000);
@@ -27,8 +27,8 @@ export class PermissionsTestComponent implements OnInit {
     });
   }
 
-  removePermission() {
-    this.permissionsSrv.removePermission('admin');
+  removePermission(permission: string) {
+    this.permissionsSrv.removePermission(permission);
   }
 
   unAuthorized() {

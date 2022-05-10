@@ -23,6 +23,18 @@ const routes: Routes = [
         loadChildren: () =>
           import('./permissions/permissions.module').then(m => m.PermissionsModule),
       },
+      {
+        path: 'forms',
+        loadChildren: () => import('./forms/forms.module').then(m => m.FormsModule),
+      },
+      {
+        path: 'tables',
+        loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule),
+      },
+      {
+        path: 'menu-level',
+        loadChildren: () => import('./level/level.module').then(m => m.LevelModule),
+      },
     ],
   },
   {

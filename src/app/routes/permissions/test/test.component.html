@@ -1,68 +1,51 @@
-<!-- <page-header></page-header> -->
-
-<mtx-alert type="danger">The permissions check will delay 2s.</mtx-alert>
-
+ngxPermissionsOnly,ngxPermissionsExcept 如果是内置标签，要以[]形式使用，如果是html标签，要以*使用
 <p>
-  <button (click)="addPermission()">Add Permission [ admin ]</button>
-  <button (click)="removePermission()">Remove Permission [ admin ]</button>
+  <button (click)="addPermission('admin')">添加权限 [ admin ]</button>
+  <button (click)="addPermission('guest')">添加权限 [ guest ]</button>
+  <button (click)="addPermission('ok')">添加权限 [ ok ]</button>
+  <button (click)="removePermission('admin')">移除权限 [ admin ]</button>
+  <button (click)="removePermission('guest')">移除权限 [ guest ]</button>
+  <button (click)="removePermission('ok')">移除权限 [ ok ]</button>
 </p>
-
+<br />-----------------------只有权限canRead才能看到 start<br />
+<ng-template [ngxPermissionsOnly]="['canRead']">
+  <p class="bg-green-500 text-white">只有权限canRead才能看到</p>
+</ng-template>
+<p class="bg-green-500 text-white" *ngxPermissionsOnly="['canRead']">只有权限canRead才能看到</p>
+----------------------- end<br />
+<br />-----------------------只有权限admin才能看到-----------------------start<br />
 <ng-template permissions [ngxPermissionsOnly]="['admin']">
-  <p class="bg-green-500 text-white">I should see it only admin</p>
+  <p class="bg-green-500 text-white">只有权限admin才能看到</p>
 </ng-template>
-
 <ng-template [ngxPermissionsOnly]="['admin']" [ngxPermissionsExcept]="'hhhhh'">
-  <p class="bg-green-500 text-white">Usage on both only and except I should see it only admin</p>
+  <p class="bg-green-500 text-white">只有权限admin才能看到</p>
 </ng-template>
-
+----------------------- end <br />
+<br />-----------------------只有权限guest才能看到----------------------- start<br />
 <ng-template permissions [ngxPermissionsOnly]="['guest']">
-  <p class="bg-purple-500 text-white">I will see it only guest</p>
+  <p class="bg-purple-500 text-white">只有权限guest才能看到</p>
 </ng-template>
-
+----------------------- end <br />
+<br />-----------------------除了权限ok外能看到----------------------- start<br />
 <ng-template
   permissions
-  [ngxPermissionsExcept]="['adminnnnn']"
+  [ngxPermissionsExcept]="['ok']"
   (permissionsAuthorized)="authorized()"
   (permissionsUnauthorized)="unAuthorized()"
 >
-  <p class="bg-orange-500 text-white">I will see it except adminnnnn</p>
+  <p class="bg-orange-500 text-white">除了权限ok外能看到</p>
 </ng-template>
-
-<ng-template permissions [ngxPermissionsExcept]="['admin']">
-  <p class="bg-indigo-500 text-white">I should see it except admin</p>
-</ng-template>
-
-<div *ngxPermissionsOnly="['admin']; else a; then: b">Testing template</div>
-
-<div *ngxPermissionsExcept="['admin']; else a; then: b">Testing template</div>
-
+----------------------- end<br />
+<br />----------------------- else then 的用法-----------------------start<br />
+<div *ngxPermissionsOnly="['admin']; else a; then: b">仅有admin吗？是-》a，否-》b</div>
+<div *ngxPermissionsExcept="['admin']; else a; then: b">除了admin吗？是-》a，否->b</div>
 <ng-template #a>
-  <p class="bg-gray-900 text-white">else block</p>
+  <p class="bg-gray-900 text-white">else a</p>
 </ng-template>
 <ng-template #b>
-  <p class="bg-gray-300">then block</p>
+  <p class="bg-gray-300">then: b</p>
 </ng-template>
-
+----------------------- end<br />
 <p>
-  Compared permission: <code>{{ comparedPermission | json }}</code>
-</p>
-
-<div>
-  <button (click)="changeToAdmin()">Change To Admin Permission</button>
-
-  <button (click)="changeToAnotherPermission()">Change To Awesome Permission</button>
-
-  <button (click)="changeToGuest()">Change To Guest Permission</button>
-</div>
-
-<div>
-  <button *ngxPermissionsOnly="comparedPermission">
-    This should be visible to admin or superadmin
-  </button>
-
-  <button *ngxPermissionsOnly="[]">WTF</button>
-</div>
-
-<p>
-  Your current permissions: <code>{{ getPermissions() | json }}</code>
+  当前权限： <code>{{ getPermissions() | json }}</code>
 </p>

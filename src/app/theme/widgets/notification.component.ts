@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <button mat-icon-button class="matero-toolbar-button" [matMenuTriggerFor]="menu">
       <mat-icon>notifications</mat-icon>
-      <span class="badge bg-red-500">5</span>
+      <span class="badge bg-negative-500">{{messages.length}}</span>
     </button>
 
     <mat-menu #menu="matMenu">

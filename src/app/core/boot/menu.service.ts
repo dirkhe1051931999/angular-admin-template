@@ -11,6 +11,7 @@ export interface MenuTag {
 export interface MenuPermissions {
   only?: string | string[];
   except?: string | string[];
+  redirectTop?: 'string';
 }
 
 export interface MenuChildrenItem {

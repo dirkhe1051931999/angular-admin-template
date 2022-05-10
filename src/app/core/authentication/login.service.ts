@@ -58,10 +58,6 @@ export class LoginService {
         name: 'dashboard',
         type: 'link',
         icon: 'dashboard',
-        badge: {
-          color: 'negative-500',
-          value: '5',
-        },
       },
       {
         route: 'permissions',
@@ -70,21 +66,13 @@ export class LoginService {
         icon: 'lock',
         label: {
           color: 'primary-500',
-          value: 'new',
+          value: 'permission',
         },
         children: [
           {
             route: 'role-switching',
             name: 'role-switching',
             type: 'link',
-          },
-          {
-            route: 'route-guard',
-            name: 'route-guard',
-            type: 'link',
-            permissions: {
-              except: 'GUEST',
-            },
           },
           {
             route: 'test',
@@ -95,6 +83,108 @@ export class LoginService {
             },
           },
         ],
+      },
+      {
+        route: 'forms',
+        name: 'forms',
+        type: 'sub',
+        icon: 'description',
+        label: {
+          color: 'primary-500',
+          value: 'form',
+        },
+        children: [
+          {
+            route: 'elements',
+            name: 'form-elements',
+            type: 'link',
+          },
+          {
+            route: 'dynamic',
+            name: 'dynamic-form',
+            type: 'link',
+          },
+          {
+            route: 'select',
+            name: 'select',
+            type: 'link',
+          },
+          {
+            route: 'datetime',
+            name: 'datetime',
+            type: 'link',
+          },
+        ],
+        permissions: {
+          only: 'GUEST2',
+        },
+      },
+      {
+        route: 'tables',
+        name: 'tables',
+        type: 'sub',
+        icon: 'format_line_spacing',
+        label: {
+          color: 'primary-500',
+          value: 'table',
+        },
+        children: [
+          {
+            route: 'kitchen-sink',
+            name: 'kitchen-sink',
+            type: 'link',
+          },
+          {
+            route: 'remote-data',
+            name: 'remote-data',
+            type: 'link',
+          },
+        ],
+        permissions: {
+          except: 'GUEST',
+        },
+      },
+      {
+        route: 'menu-level',
+        name: 'menu-level',
+        type: 'sub',
+        icon: 'subject',
+        children: [
+          {
+            route: 'level-1-1',
+            name: 'level-1-1',
+            type: 'sub',
+            children: [
+              {
+                route: 'level-2-1',
+                name: 'level-2-1',
+                type: 'link',
+              },
+              {
+                route: 'level-2-2',
+                name: 'level-2-2',
+                type: 'link',
+              },
+            ],
+          },
+          {
+            route: 'level-1-2',
+            name: 'level-1-2',
+            type: 'link',
+          },
+        ],
+        permissions: {
+          only: 'ADMIN',
+        },
+      },
+      {
+        route: 'https://github.com/dirkhe1051931999/angular-admin-template',
+        name: 'extensions',
+        type: 'extTabLink',
+        icon: 'link',
+        permissions: {
+          only: 'ADMIN',
+        },
       },
     ]).pipe(res => res);
     // return this.http.get<{ menu: Menu[] }>('/me/menu').pipe(map(res => res.menu));

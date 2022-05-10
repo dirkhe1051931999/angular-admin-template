@@ -101,6 +101,6 @@
     {{ item.badge.value }}
   </span>
   <mat-icon class="menu-caret" *ngIf="item.type !== 'link'">
-    {{ item.type === 'sub' ? 'arrow_drop_down' : 'launch' }}
+    {{ item.type === 'sub' ? 'arrow_drop_down' : item.type === 'extTabLink' ? 'open_in_new' : '' }}
   </mat-icon>
 </ng-template>
