@@ -27,5 +27,8 @@
 }
 
 .input-password {
-  font-family: 'password';
+  font-family: 'password' !important;
+  &::placeholder {
+    font-family: 'NotoSansSC';
+  }
 }

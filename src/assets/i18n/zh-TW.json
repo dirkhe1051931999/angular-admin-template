@@ -94,7 +94,7 @@
     "logout": "退出"
   },
   "login": {
-    "title": "歡迎回來",
+    "title": "登錄",
     "username": "用戶名",
     "password": "密碼",
     "remember_me": "記住我",
@@ -105,7 +105,7 @@
   },
   "register": {
     "welcome": "歡迎",
-    "title": "創建您的帳戶只需幾秒鐘",
+    "title": "註冊",
     "confirm_password": "確認密碼",
     "agree": "我已閱讀並同意服務條款",
     "have_an_account": "已經有帳號了",

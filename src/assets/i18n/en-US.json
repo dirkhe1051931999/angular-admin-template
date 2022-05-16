@@ -94,7 +94,7 @@
     "logout": "logout"
   },
   "login": {
-    "title": "Welcome Back",
+    "title": "Login",
     "username": "Username",
     "password": "Password",
     "remember_me": "Remember Me",
@@ -105,7 +105,7 @@
   },
   "register": {
     "welcome": "Welcome",
-    "title": "It only takes a few seconds to create your account",
+    "title": "Register",
     "confirm_password": "Confirm Password",
     "agree": "I have read and agree to the terms of service",
     "have_an_account": "Already have an account",
